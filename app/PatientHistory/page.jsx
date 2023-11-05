@@ -5,16 +5,19 @@ import React from 'react';
 import { useState } from 'react';
 import Navbar from '/components/navbar.jsx';
 
-import '/blockchain/searchData.js';
+import searchData from '/blockchain/searchData'; 
+
+
 
 const PatientHistory = () => {
+  searchData();
   const [data, setData] = useState({});
   const [NID, setNID] = useState('');
   const [loading, setLoading] = useState(false);
-
+  
   const MedicalHistory = () => {
     setLoading(true);
-
+   
     setTimeout(() => { 
     
       
