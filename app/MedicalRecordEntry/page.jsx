@@ -4,13 +4,72 @@ import React from 'react';
 
 import { useState } from 'react';
 import Navbar from '/components/navbar.jsx';
+import publishToMultiChain from '/blockchain/publishData.js'
 
 
 
 
 const MedicalRecordEntry = () => {
-  
-  
+
+    
+    const streamName = 'stream1';
+    const key = 'key1';
+    const NID ='58556802';
+    const Name='John Doe';
+    const Age='25';
+    const [symptoms, setSymptoms] = useState('');
+    const [diagnosis, setDiagnosis] = useState('');
+    const [medicine, setMedicine] = useState('');
+    const [tests, setTests] = useState('');
+    const [comments, setComments] = useState('');
+    const [loading, setLoading] = useState(false);
+    
+    const handleSubmit = async () => {
+       
+    
+        const data = {
+          NID: '58556802',
+          Name: 'John Doe',
+          Age: '25',
+          symptoms,
+          diagnosis,
+          medicine,
+          tests,
+          comments,
+        };
+    
+        try {
+          // const result = await fetch('http://localhost:8000');
+          const result = await fetch('http://localhost:8000/post', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+          
+          if (result) {
+            alert('Successfully published to MultiChain');
+            console.log('Published to MultiChain:',data );
+
+
+          }
+
+
+          } catch (error) {
+            
+            console.error('Failed to publish:', error);
+          }
+      
+            
+    
+        setSymptoms('');
+        setDiagnosis('');
+        setMedicine('');
+        setTests('');
+        setComments('');
+      };
+    
 
   return (
     <div>
@@ -37,7 +96,7 @@ const MedicalRecordEntry = () => {
               <input
                 className="border-2 border-gray-300 rounded-lg w-full p-2"
                 type="text"
-                placeholder="Enter symptoms"
+                placeholder="Enter symptoms" onChange = { (e)=> { setSymptoms(e.target.value) }}
               />
             </div>
 
@@ -45,7 +104,7 @@ const MedicalRecordEntry = () => {
               <label className="text-l font-bold px-2 ">Diagnosis:</label>
               <textarea
                 className="border-2 border-gray-300 rounded-lg w-full p-2"
-                placeholder="Enter diagnosis"
+                placeholder="Enter diagnosis" onChange={ (e) => { setDiagnosis(e.target.value)}}
               />
             </div>
             <div className="py-2">
@@ -53,27 +112,27 @@ const MedicalRecordEntry = () => {
               <input
                 className="border-2 border-gray-300 rounded-lg w-full p-2"
                 type="text"
-                placeholder="Enter prescribed medicine"
+                placeholder="Enter prescribed medicine" onChange={(e) => { setMedicine(e.target.value) }}
               />
             </div>
             <div className="py-4">
-              <label className="text-l font-bold px-2 ">Suggested Tests:</label>
+              <label className="text-l font-bold px-2 ">Tests:</label>
               <input
                 className="border-2 border-gray-300 rounded-lg w-full p-2 "
                 type="text"
-                placeholder="Enter suggested tests"
+                placeholder="Enter suggested tests" onChange={(e) => {  setTests(e.target.value) }}
               />
             </div>
             <div className="py-2">
               <label className="text-l font-bold px-2 ">Comments:</label>
               <textarea
                 className="border-2 border-gray-300 rounded-lg w-full p-2"
-                placeholder="Enter comments"
+                placeholder="Enter comments" onChange={(e) => { setComments(e.target.value) }}
               />
               </div>
               <div> 
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-4 rounded float-right">
-                    Submit
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mx-4 rounded float-right" onClick={handleSubmit}>
+                    Submit 
                     </button>
                     </div>
           </div>

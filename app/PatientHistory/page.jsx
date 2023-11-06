@@ -10,32 +10,37 @@ import searchData from '/blockchain/searchData';
 
 
 const PatientHistory = () => {
-  searchData();
+  
   const [data, setData] = useState({});
   const [NID, setNID] = useState('');
   const [loading, setLoading] = useState(false);
   
-  const MedicalHistory = () => {
+  async function MedicalHistory () {
     setLoading(true);
-   
-    setTimeout(() => { 
     
-      
-      const dummyData = {
-        firstName: 'John',
-        lastName: 'Doe',
-        age: 25,
-        gender: 'male',
-        NID: '1234567890',
-        mobile: '01712345678',
-      };
-
-      setData(dummyData);
+    try {
+      const response = await fetch('http://localhost:3000/MedicalRecordEntry');
+      if (response.ok) {
+        const patientData = await response.json();
+        console.log(patientData);
+        // const dataa= JSON.parse(patientData);
+        // console.log(dataa);
+        // console.log(pdata);
+        setData(patientData);
+        console.log(data);
+      } else {
+        console.log(response)
+        console.log(typeof(response))
+        console.error('Failed to fetch patient data');
+      }
+    } catch (error) {
+     
+      console.error('Fetch error:', error);
+    } finally {
       setLoading(false);
-    }, 2000); 
-
+    }
     setNID(''); 
-  };
+  }
 
   return (
     <div>
@@ -69,28 +74,28 @@ const PatientHistory = () => {
 
       {loading ? (
   <div className="text-center p-4">Loading...</div>
-) : data.firstName && data.lastName ? (
+) : data.Name && data.Age ? (
   <div className="bg-blue-200 flex justify-center items-center p-16 border-m my-10 w-1/2 rounded-xl">
     <div className="p-4">
       <h2 className="text-xl font-bold">Patient Information</h2>
       <p>
-        <strong>First Name:</strong> {data.firstName}
+        <strong>First Name:</strong> {data.Name}
       </p>
       <p>
-        <strong>Last Name:</strong> {data.lastName}
+        <strong>Last Name:</strong> {data.Age}
       </p>
       <p>
-        <strong>Age:</strong> {data.age}
+        <strong>Age:</strong> {data.symptoms}
       </p>
-      <p>
+      {/* <p>
         <strong>Gender:</strong> {data.gender}
-      </p>
+      </p> */}
       <p>
         <strong>NID:</strong> {data.NID}
       </p>
-      <p>
+      {/* <p>
         <strong>Mobile:</strong> {data.mobile}
-      </p>
+      </p> */}
     </div>
   </div>
 ) : null}

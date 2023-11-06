@@ -24,12 +24,12 @@ function searchData() {
             } else {
                 const items = response.result;
                 
-                // items.map(item => {
-                    const firstItem = items[0]; // Access the first item in the array
-                    const jsonData = firstItem.data.json;
-                    console.log('Patient Data (First Item):', jsonData);
+                items.map(item => {
+                    // const firstItem = items[0]; // Access the first item in the array
+                    const jsonData = item.data.json;
+                    console.log('Patient Data :', jsonData);
                     
-                // });
+                });
 
                 return items;
             }

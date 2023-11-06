@@ -6,35 +6,19 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 
 module.exports = {
-    async headers() {
-      return [
+  async headers() {
+    return [
         {
-          source: '/api/:path*',
-          headers: [
-            {
-              key: 'Access-Control-Allow-Origin',
-              value: '*', // Change '*' to the origin you want to allow, e.g., 'http://localhost:3000'
-            },
-            {
-              key: 'Access-Control-Allow-Methods',
-              value: 'GET, POST, PUT, DELETE, OPTIONS',
-            },
-            {
-              key: 'Access-Control-Allow-Headers',
-              value: 'http://localhost:3000'
-,
-            },
-          ],
-        },
-      ];
-    },
-    async rewrites() {
-        return [
-          {
-            source: '/blockchain/searchData', // Update with your API route path
-            destination: 'http://localhost:2672', // MultiChain server URL
-          },
-        ];
-      },
+            source: "/:path*",
+            headers: [
+                { key: "Access-Control-Allow-Credentials", value: "true" },
+                { key: "Access-Control-Allow-Origin", value: "*" }, // replace this your actual origin
+                { key: "Access-Control-Allow-Methods", value: "GET,DELETE,PATCH,POST,PUT" },
+                { key: "Access-Control-Allow-Headers", value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" },
+            ]
+        }
+    ]
+},
+    
   };
   
