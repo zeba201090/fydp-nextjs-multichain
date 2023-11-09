@@ -5,13 +5,12 @@ import React from 'react';
 import { useState } from 'react';
 import Navbar from '/components/navbar.jsx';
 
-import searchData from '/blockchain/searchData'; 
 
 
 
 const PatientHistory = () => {
   
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   const [NID, setNID] = useState('');
   const [loading, setLoading] = useState(false);
   
@@ -19,14 +18,14 @@ const PatientHistory = () => {
     setLoading(true);
     
     try {
-      const response = await fetch('http://localhost:3000/MedicalRecordEntry');
+      const response = await fetch('http://localhost:8000/get');
       if (response.ok) {
         const patientData = await response.json();
-        console.log(patientData);
-        // const dataa= JSON.parse(patientData);
-        // console.log(dataa);
-        // console.log(pdata);
-        setData(patientData);
+        const extractedData = patientData.map(item => item.data.json);
+
+        console.log(extractedData);
+       
+        setData(extractedData);
         console.log(data);
       } else {
         console.log(response)
@@ -37,7 +36,10 @@ const PatientHistory = () => {
      
       console.error('Fetch error:', error);
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+      
     }
     setNID(''); 
   }
@@ -68,39 +70,26 @@ const PatientHistory = () => {
         </button>
       </div>
 
-      <div className= "w-3/4 mx-auto h-3/4 border-m rounded-m flex justify-center items-center">
-        
-     
+      <div className="w-3/4 mx-auto h-3/4 border-m rounded-m flex row justify-center items-center">
+  {loading ? (
+    <div className="text-center p-4">Loading...</div>
+  ) : data.length > 0 ? (
+    <div className="bg-blue-200 flex flex-row  p-8 border-m my-10 w-3/4 rounded-xl">
+      <div className="p-4">
+        <h2 className="text-xl font-bold">Patient Information</h2>
+        {data.map((item) => (
+          <div className='bg-blue-100 h-auto w-auto m-4 p-4 rounded-md'>
+        <p>date: 2/11/23 </p>
+        <p key={item.NID}> Diagnosis{item.diagnosis}</p>
+          
+          </div>
+         ))}
 
-      {loading ? (
-  <div className="text-center p-4">Loading...</div>
-) : data.Name && data.Age ? (
-  <div className="bg-blue-200 flex justify-center items-center p-16 border-m my-10 w-1/2 rounded-xl">
-    <div className="p-4">
-      <h2 className="text-xl font-bold">Patient Information</h2>
-      <p>
-        <strong>First Name:</strong> {data.Name}
-      </p>
-      <p>
-        <strong>Last Name:</strong> {data.Age}
-      </p>
-      <p>
-        <strong>Age:</strong> {data.symptoms}
-      </p>
-      {/* <p>
-        <strong>Gender:</strong> {data.gender}
-      </p> */}
-      <p>
-        <strong>NID:</strong> {data.NID}
-      </p>
-      {/* <p>
-        <strong>Mobile:</strong> {data.mobile}
-      </p> */}
+      </div>
     </div>
-  </div>
-) : null}
-     </div>
-    </div>
+  ) : null}
+</div>
+</div>
   );
 };
 

@@ -75,22 +75,24 @@ const MedicalRecordEntry = () => {
     <div>
     <Navbar />
     <div className="flex justify-center items-center h-auto border-m mt-10">
-      <div className="bg-blue-200 w-4/5 h-auto rounded-lg shadow-xl p-5">
+      <div className="bg-white w-4/5 h-auto rounded-sm shadow-2xl p-5 py-12 ">
         <label className="text-2xl font-bold text-center items-center">Medical Record Entry</label>
         <div className="flex justify-center items-center">
           <label className="text-l font-bold px-5 my-7">Patient ID :</label>
-          <input className="border-2 border-blue-300 rounded-lg w-1/2 h-10 p-5" type="text" placeholder="Patient ID" />
+          <input className="border-2 border-blue-300 border-x-2 rounded-lg w-1/2 h-8 p-5" type="text" placeholder="Patient ID" />
         </div>
         <div className="flex flex-row justify-center h-auto m-2 border-2 rounded-md">
 
-          <div className="bg-blue-100 float-left w-1/4 py-4 px-4">
+          <div className="bg-blue-100 float-left w-1/4 py-3 px-4 rounded-md ">
             <label className="text-l font-bold text-blue-900 my-7 ">Patient General Info</label>
-            <p>Patient Name: John Doe</p>
-            <p>Patient Age: 25</p>
+            <div className='py-3'>
+            <p className='py-1 md:text-s'>Patient Name: John Doe</p>
+            <p className='py-1  md:text-s'>Patient Age: 25</p>
+            </div>
           </div>
 
           <div className="bg-white float-left w-3/4 py-4 px-4">
-            <label className="text-l font-bold justify-center text-blue-900 px-80">EHR Entry</label>
+            <label className="text-l font-bold justify-center text-blue-900 pl-2">EHR Entry</label>
             <div className="pt-5 pb-3">
               <label className="text-l font-bold px-2 ">Symptoms:</label>
               <input
