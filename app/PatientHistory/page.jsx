@@ -13,6 +13,7 @@ const PatientHistory = () => {
   const [data, setData] = useState([]);
   const [NID, setNID] = useState('');
   const [loading, setLoading] = useState(false);
+  const [id, setId] = useState(false);
   
   async function MedicalHistory () {
     setLoading(true);
@@ -22,10 +23,16 @@ const PatientHistory = () => {
       if (response.ok) {
         const patientData = await response.json();
         const extractedData = patientData.map(item => item.data.json);
-
-        console.log(extractedData);
-       
-        setData(extractedData);
+        
+        // Reverse the order of the array
+        const reversedData = extractedData.reverse();
+        
+        console.log(reversedData);
+        setData(reversedData);
+        setTimeout(() => {
+          setId(true);
+        }, 800);
+        
         console.log(data);
       } else {
         console.log(response)
@@ -70,17 +77,31 @@ const PatientHistory = () => {
         </button>
       </div>
 
-      <div className="w-3/4 mx-auto h-3/4 border-m rounded-m flex row justify-center items-center">
+      <div className="  w-1/4 float-right rounded-md ">
+            { id ? (
+                  <div className='py-3 font-bold'>
+                    <p className='py-1 md:text-s'>Patient Name: John Doe</p>
+                    <p className='py-1 md:text-s'>Patient Age: 25</p>
+                    <p className='py-1 md:text-s'>Patient NID: 58556802</p>
+                  </div>
+                ): null }
+
+          </div>
+
+      <div className="w-3/4 mx-auto h-3/4 border-m rounded-m flex row justify-center items-center ml-48">
   {loading ? (
     <div className="text-center p-4">Loading...</div>
   ) : data.length > 0 ? (
-    <div className="bg-blue-200 flex flex-row  p-8 border-m my-10 w-3/4 rounded-xl">
+    <div className="bg-white  shadow-inner mx-auto p-8 border-m my-5 w-3/4 rounded-xl">
       <div className="p-4">
-        <h2 className="text-xl font-bold">Patient Information</h2>
-        {data.map((item) => (
-          <div className='bg-blue-100 h-auto w-auto m-4 p-4 rounded-md'>
+  <h2 className="text-xl font-bold">Patient Information</h2>
+  
+          {data.map((item) => (
+          <div className='bg-blue-100 h-auto w-3/4 m-4 p-4 rounded-md font-bold'>
         <p>date: 2/11/23 </p>
-        <p key={item.NID}> Diagnosis{item.diagnosis}</p>
+        <p key={item.NID}> Diagnosis {item.diagnosis}</p>
+        <p key={item.NID}> Medicine {item.medicine}</p>
+        <p key={item.NID}> Tests {item.test}</p>
           
           </div>
          ))}
